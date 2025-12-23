@@ -1,8 +1,13 @@
 import { View, Text } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { AstronomyDataType } from '../types/astronomyType'
+import { Region } from 'react-native-maps'
 
-export default function AstronomyData() {
+type Props = {
+    region?: Region
+}
+
+export default function AstronomyData({ region }: Props) {
 
     const [data, setData] = useState<AstronomyDataType | null>(null)
 
@@ -19,12 +24,14 @@ export default function AstronomyData() {
                 redirect: "follow" as RequestRedirect
             };
 
-            fetch(`https://api.ipgeolocation.io/v2/astronomy?apiKey=${process.env.API_KEY}&location=New%20York%2C%20US&elevation=10`, requestOptions)
+            fetch(`https://api.ipgeolocation.io/v2/astronomy?apiKey=${process.env.API_KEY}&lat=${region?.latitude}&long=${region?.longitude}&elevation=10`, requestOptions)
                 .then((response) => response.json())
                 .then((result) => setData(result))
                 .catch((error) => console.error(error));
         }
 
+        //call the function to fetch data
+        fetchAstronomyInfo();
 
     }, [])
 

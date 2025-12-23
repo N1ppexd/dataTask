@@ -1,19 +1,45 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import AstronomyData from './components/AstronomyData';
+import Map from './components/Map';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Region } from 'react-native-maps';
+import { useEffect, useState } from 'react';
+import * as Location from 'expo-location';
 
 export default function App() {
+  
+  const [region, setRegion] = useState<Region>({
+    latitude: 37.78825,
+    longitude: -122.4324,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  });
 
-
-
-
-
+  useEffect(() => {
+    // Request location permissions and get current location
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        console.log('Permission to access location was denied');
+        return;
+      }
+      let location = await Location.getCurrentPositionAsync({});
+      setRegion({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      });
+    })();
+  }, []);
+  
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <AstronomyData></AstronomyData>
+    <SafeAreaView style={styles.container}>
+      <Map region={region} />
+      <AstronomyData region={region} />
       <StatusBar style="auto" />
-    </View>
+    </SafeAreaView>
   );
 }
 
