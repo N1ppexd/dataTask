@@ -8,12 +8,15 @@ import { useEffect, useState } from 'react';
 import * as Location from 'expo-location';
 
 export default function App() {
+
+  const latitudeDelta : number = 0.0922;
+  const longitudeDelta : number = 0.0421;
   
   const [region, setRegion] = useState<Region>({
     latitude: 37.78825,
     longitude: -122.4324,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
+    latitudeDelta: latitudeDelta,
+    longitudeDelta: longitudeDelta,
   });
 
   useEffect(() => {
@@ -28,8 +31,8 @@ export default function App() {
       setRegion({
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
+        latitudeDelta: latitudeDelta,
+        longitudeDelta: longitudeDelta,
       });
     })();
   }, []);

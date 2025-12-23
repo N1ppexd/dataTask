@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { AstronomyDataType } from '../types/astronomyType'
 import { Region } from 'react-native-maps'
@@ -42,3 +42,14 @@ export default function AstronomyData({ region }: Props) {
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+
+    container:
+    {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
+
+})
