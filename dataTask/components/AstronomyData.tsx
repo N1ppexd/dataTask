@@ -13,29 +13,30 @@ export default function AstronomyData({ region }: Props) {
 
     useEffect(() => {
 
-
-        async function fetchAstronomyInfo(): Promise<void> {
-            const myHeaders = new Headers();
-
-
-            const requestOptions = {
-                method: "GET",
-                headers: myHeaders,
-                redirect: "follow" as RequestRedirect
-            };
-
-            fetch(`https://api.ipgeolocation.io/v2/astronomy?apiKey=`+ process.env.API_KEY + `&lat=${region?.latitude}&long=${region?.longitude}&elevation=10`, requestOptions)
-                .then((response) => response.json())
-                .then((result) => {
-                    console.log(result)
-                })
-                .catch((error) => console.error(error));
-        }
-
         //call the function to fetch data
         fetchAstronomyInfo();
 
     }, [])
+
+
+    async function fetchAstronomyInfo(): Promise<void> {
+        const myHeaders = new Headers();
+
+
+        const requestOptions = {
+            method: "GET",
+            headers: myHeaders,
+            redirect: "follow" as RequestRedirect
+        };
+
+        fetch(`https://api.ipgeolocation.io/v2/astronomy?apiKey=` + process.env.API_KEY + `&lat=${region?.latitude}&long=${region?.longitude}&elevation=10`, requestOptions)
+            .then((response) => response.json())
+            .then((result: AstronomyDataType) => {
+                setData(result)
+                console.log(result)
+            })
+            .catch((error) => console.error(error));
+    }
 
     return (
         <View>
