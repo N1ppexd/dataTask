@@ -24,9 +24,11 @@ export default function AstronomyData({ region }: Props) {
                 redirect: "follow" as RequestRedirect
             };
 
-            fetch(`https://api.ipgeolocation.io/v2/astronomy?apiKey=${process.env.API_KEY}&lat=${region?.latitude}&long=${region?.longitude}&elevation=10`, requestOptions)
+            fetch(`https://api.ipgeolocation.io/v2/astronomy?apiKey=`+ process.env.API_KEY + `&lat=${region?.latitude}&long=${region?.longitude}&elevation=10`, requestOptions)
                 .then((response) => response.json())
-                .then((result) => setData(result))
+                .then((result) => {
+                    console.log(result)
+                })
                 .catch((error) => console.error(error));
         }
 
@@ -37,8 +39,8 @@ export default function AstronomyData({ region }: Props) {
 
     return (
         <View>
-            <Text>astronomyData</Text>
-            <Text>{data?.current_time}</Text>
+            <Text>Current time = {data?.current_time}</Text>
+            <Text>{data?.sunrise}</Text>
         </View>
     )
 }
