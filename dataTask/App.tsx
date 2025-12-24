@@ -1,6 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import AstronomyData from './components/AstronomyData';
 import Map from './components/Map';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Region } from 'react-native-maps';
@@ -40,7 +39,6 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <Map region={region} />
-      <AstronomyData region={region} />
       <StatusBar style="auto" />
     </SafeAreaView>
   );
