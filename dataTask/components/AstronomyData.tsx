@@ -59,8 +59,17 @@ export default function AstronomyData({ region }: Props) {
 
     return (
         <View style={styles.container}>
+            <Text style={styles.infoText}>Date = {data?.date}</Text>
             <Text style={styles.infoText}>Current time = {data?.current_time}</Text>
             <Text style={styles.infoText}>Sunrise time = {data?.sunrise}</Text>
+            <Text style={styles.infoText}>Sunset time = {data?.sunset}</Text>
+            <Text style={styles.infoText}>Sun status = {data?.sun_status}</Text>
+            <Text style={styles.infoText}>Day length = {data?.day_length}</Text>
+            <Text style={styles.infoText}>Sun altitude = {data?.sun_altitude}</Text>
+            <Text style={styles.infoText}>Moon phase = {data?.moon_phase}</Text>
+            <Text style={styles.infoText}>Moonrise time = {data?.moonrise}</Text>
+            <Text style={styles.infoText}>Moon altitude = {data?.moon_altitude}</Text>
+            <Text style={styles.infoText}>Moon illumination = {data?.moon_illumination_percentage}%</Text>
         </View>
     )
 }
