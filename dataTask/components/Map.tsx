@@ -11,23 +11,28 @@ interface MapProps {
 export default function Map({region}: MapProps) {
 
 
+  const [currentRegion, setCurrentRegion] = React.useState<Region>(region);
+
   useEffect(() => {
-    console.log("Map region updated:", region);
-  }, [region]);
+    setCurrentRegion(region);
+  }, []);
 
 
   return (
     <MapView
       style={styles.map}
       region={region}
-      onRegionChangeComplete={(newRegion) => region=newRegion}
+      onPress={(newRegion) => {setCurrentRegion({
+        latitude: newRegion.nativeEvent.coordinate.latitude,
+         longitude: newRegion.nativeEvent.coordinate.longitude, latitudeDelta: region.latitudeDelta, longitudeDelta: region.longitudeDelta
+      })}}
       >
 
         <Marker
-          coordinate={{latitude: region.latitude, longitude: region.longitude}}
+          coordinate={{latitude: currentRegion.latitude, longitude: currentRegion.longitude}}
           title={"You are here"}
         />
-        <AstronomyData region={region} />
+        <AstronomyData region={currentRegion} />
     </MapView>
   );
 }

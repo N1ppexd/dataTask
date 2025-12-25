@@ -39,9 +39,9 @@ export default function AstronomyData({ region }: Props) {
     }
 
     return (
-        <View>
-            <Text>Current time = {data?.current_time}</Text>
-            <Text>{data?.sunrise}</Text>
+        <View style={styles.container}>
+            <Text style={styles.infoText}>Current time = {data?.current_time}</Text>
+            <Text style={styles.infoText}>{data?.sunrise}</Text>
         </View>
     )
 }
@@ -52,7 +52,16 @@ const styles = StyleSheet.create({
     {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        padding: 10,
+        borderRadius: 10,
+    },
+    infoText:{
+        fontSize: 16,
+        alignContent: 'center',
+        alignItems: 'center',
+        color: 'white',
     }
 
 })

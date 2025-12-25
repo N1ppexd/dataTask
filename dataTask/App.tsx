@@ -37,10 +37,10 @@ export default function App() {
   }, []);
   
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <Map region={region} />
       <StatusBar style="auto" />
-    </SafeAreaView>
+    </View>
   );
 }
 
