@@ -21,7 +21,7 @@ export default function AstronomyData({ region }: Props) {
 
     async function fetchAstronomyInfo(): Promise<void> {
         const myHeaders = new Headers();
-
+        myHeaders.append("x-api-key", String(process.env.API_KEY));
 
         const requestOptions = {
             method: "GET",
@@ -29,11 +29,30 @@ export default function AstronomyData({ region }: Props) {
             redirect: "follow" as RequestRedirect
         };
 
-        fetch(`https://api.ipgeolocation.io/v2/astronomy?apiKey=` + process.env.API_KEY + `&lat=${region?.latitude}&long=${region?.longitude}&elevation=10`, requestOptions)
-            .then((response) => response.json())
-            .then((result: AstronomyDataType) => {
-                setData(result)
-                console.log(result)
+        fetch(`https://api.ipgeolocation.io/v2/astronomy?lat=${region?.latitude}&long=${region?.longitude}&elevation=10`, requestOptions)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                return response.json();
+            })
+            .then((result: any) => {
+                const astronomyData: AstronomyDataType = {
+                    date: result.date,
+                    current_time: result.current_time,
+                    sunrise: result.sunrise,
+                    sunset: result.sunset,
+                    sun_status: result.sun_status,
+                    day_length: result.day_length,
+                    sun_altitude: result.sun_altitude,
+                    moon_phase: result.moon_phase,
+                    moonrise: result.moonrise,
+                    moon_altitude: result.moon_altitude,
+                    moon_illumination_percentage: result.moon_illumination_percentage
+                };
+                setData(astronomyData);
+                console.log(astronomyData);
             })
             .catch((error) => console.error(error));
     }
@@ -41,7 +60,7 @@ export default function AstronomyData({ region }: Props) {
     return (
         <View style={styles.container}>
             <Text style={styles.infoText}>Current time = {data?.current_time}</Text>
-            <Text style={styles.infoText}>{data?.sunrise}</Text>
+            <Text style={styles.infoText}>Sunrise time = {data?.sunrise}</Text>
         </View>
     )
 }
