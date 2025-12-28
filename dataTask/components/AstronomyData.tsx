@@ -21,7 +21,6 @@ export default function AstronomyData({ region }: Props) {
 
     async function fetchAstronomyInfo(): Promise<void> {
         const myHeaders = new Headers();
-        myHeaders.append("x-api-key", String(process.env.API_KEY));
 
         const requestOptions = {
             method: "GET",
@@ -29,7 +28,7 @@ export default function AstronomyData({ region }: Props) {
             redirect: "follow" as RequestRedirect
         };
 
-        fetch(`https://api.ipgeolocation.io/v2/astronomy?lat=${region?.latitude}&long=${region?.longitude}&elevation=10`, requestOptions)
+        fetch(`https://api.ipgeolocation.io/v2/astronomy?apikey=${process.env.API_KEY}&lat=${region?.latitude}&long=${region?.longitude}&elevation=10`, requestOptions)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -81,9 +80,14 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        backgroundColor: 'rgba(0, 0, 0, 1)',
         padding: 10,
         borderRadius: 10,
+        position: 'absolute',
+        top: 50,
+        left: 10,
+        right: 10,
+        zIndex: 1000,
     },
     infoText:{
         fontSize: 16,
