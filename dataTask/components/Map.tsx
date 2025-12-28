@@ -19,21 +19,27 @@ export default function Map({region}: MapProps) {
 
 
   return (
-    <MapView
-      style={styles.map}
-      region={region}
-      onPress={(newRegion) => {setCurrentRegion({
-        latitude: newRegion.nativeEvent.coordinate.latitude,
-         longitude: newRegion.nativeEvent.coordinate.longitude, latitudeDelta: region.latitudeDelta, longitudeDelta: region.longitudeDelta
-      })}}
+    <View style={{ flex: 1, width: '100%' }}>
+      <MapView
+        style={styles.map}
+        region={region}
+        onPress={(newRegion) => {
+          setCurrentRegion({
+            latitude: newRegion.nativeEvent.coordinate.latitude,
+            longitude: newRegion.nativeEvent.coordinate.longitude, latitudeDelta: region.latitudeDelta, longitudeDelta: region.longitudeDelta
+          })
+        }}
       >
 
         <Marker
-          coordinate={{latitude: currentRegion.latitude, longitude: currentRegion.longitude}}
+          coordinate={{ latitude: currentRegion.latitude, longitude: currentRegion.longitude }}
           title={"You are here"}
         />
-        <AstronomyData region={currentRegion} />
-    </MapView>
+
+      </MapView>
+      <AstronomyData region={currentRegion} />
+    </View>
+
   );
 }
 

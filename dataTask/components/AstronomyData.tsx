@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { AstronomyDataType } from '../types/astronomyType'
 import { Region } from 'react-native-maps'
@@ -16,7 +16,7 @@ export default function AstronomyData({ region }: Props) {
         //call the function to fetch data
         fetchAstronomyInfo();
 
-    }, [])
+    }, [region])
 
 
     async function fetchAstronomyInfo(): Promise<void> {
@@ -28,72 +28,91 @@ export default function AstronomyData({ region }: Props) {
             redirect: "follow" as RequestRedirect
         };
 
-        fetch(`https://api.ipgeolocation.io/v2/astronomy?apikey=${process.env.API_KEY}&lat=${region?.latitude}&long=${region?.longitude}&elevation=10`, requestOptions)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
+        console.log('latitude ' + region?.latitude)
 
+
+        await fetch("https://api.ipgeolocation.io/v2/astronomy?apiKey=4b6c87109bd24356b970e5d0973c161a&lat=40.76473&long=-74.00084&elevation=10", requestOptions)
+            .then((response) => {
+                
+                if(!response.ok){
+                    throw console.error("response is not ok");
+                }
                 return response.json();
+
             })
             .then((result: any) => {
-                const astronomyData: AstronomyDataType = {
-                    date: result.date,
-                    current_time: result.current_time,
-                    sunrise: result.sunrise,
-                    sunset: result.sunset,
-                    sun_status: result.sun_status,
-                    day_length: result.day_length,
-                    sun_altitude: result.sun_altitude,
-                    moon_phase: result.moon_phase,
-                    moonrise: result.moonrise,
-                    moon_altitude: result.moon_altitude,
-                    moon_illumination_percentage: result.moon_illumination_percentage
-                };
-                setData(astronomyData);
-                console.log(astronomyData);
+                console.log(result)
+                try{
+
+                    const astronomyData: AstronomyDataType = {
+                        date: result.astronomy.date,
+                        current_time: result.astronomy.current_time,
+                        sunrise: result.astronomy.sunrise,
+                        sunset: result.astronomy.sunset,
+                        sun_status: result.astronomy.sun_status,
+                        day_length: result.astronomy.day_length,
+                        sun_altitude: result.astronomy.sun_altitude,
+                        moon_phase: result.astronomy.moon_phase,
+                        moonrise: result.astronomy.moonrise,
+                        moon_altitude: result.astronomy.moon_altitude,
+                        moon_illumination_percentage: result.astronomy.moon_illumination_percentage
+                    }
+                    setData(astronomyData)
+                }
+                catch{
+                    throw new Error("not ok");
+                }
+                
             })
             .catch((error) => console.error(error));
     }
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.infoText}>Date = {data?.date}</Text>
-            <Text style={styles.infoText}>Current time = {data?.current_time}</Text>
-            <Text style={styles.infoText}>Sunrise time = {data?.sunrise}</Text>
-            <Text style={styles.infoText}>Sunset time = {data?.sunset}</Text>
-            <Text style={styles.infoText}>Sun status = {data?.sun_status}</Text>
-            <Text style={styles.infoText}>Day length = {data?.day_length}</Text>
-            <Text style={styles.infoText}>Sun altitude = {data?.sun_altitude}</Text>
-            <Text style={styles.infoText}>Moon phase = {data?.moon_phase}</Text>
-            <Text style={styles.infoText}>Moonrise time = {data?.moonrise}</Text>
-            <Text style={styles.infoText}>Moon altitude = {data?.moon_altitude}</Text>
-            <Text style={styles.infoText}>Moon illumination = {data?.moon_illumination_percentage}%</Text>
+        <View style={styles.box}>
+            <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
+             <Text style={styles.infoText}>Date = {data?.date}</Text>
+             <Text style={styles.infoText}>Current time = {data?.current_time}</Text>
+             <Text style={styles.infoText}>Sunrise time = {data?.sunrise}</Text>
+             <Text style={styles.infoText}>Sunset time = {data?.sunset}</Text>
+             <Text style={styles.infoText}>Sun status = {data?.sun_status}</Text>
+             <Text style={styles.infoText}>Day length = {data?.day_length}</Text>
+             <Text style={styles.infoText}>Sun altitude = {data?.sun_altitude}</Text>
+             <Text style={styles.infoText}>Moon phase = {data?.moon_phase}</Text>
+             <Text style={styles.infoText}>Moonrise time = {data?.moonrise}</Text>
+             <Text style={styles.infoText}>Moon altitude = {data?.moon_altitude}</Text>
+             <Text style={styles.infoText}>Moon illumination = {data?.moon_illumination_percentage}%</Text>
+            </ScrollView>
         </View>
-    )
-}
-
-const styles = StyleSheet.create({
-
-    container:
-    {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 1)',
-        padding: 10,
-        borderRadius: 10,
+     )
+ }
+ 
+ const styles = StyleSheet.create({
+ 
+    box: {
         position: 'absolute',
-        top: 50,
-        left: 10,
-        right: 10,
-        zIndex: 1000,
+        top: 20,
+        right: 20,
+        width: 320,
+        maxHeight: '70%',
+        backgroundColor: '#ffffffcc',
+        borderRadius: 10,
+        padding: 8,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
     },
-    infoText:{
-        fontSize: 16,
-        alignContent: 'center',
-        alignItems: 'center',
-        color: 'white',
-    }
-
-})
+     container: {
+        alignItems: 'flex-start',
+        width: '100%',
+        paddingVertical: 6,
+    },
+     infoText:{
+         fontSize: 16,
+         alignContent: 'center',
+         alignItems: 'center',
+         color: '#000',
+     }
+ 
+ })
