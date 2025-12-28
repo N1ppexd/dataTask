@@ -31,7 +31,7 @@ export default function AstronomyData({ region }: Props) {
         console.log('latitude ' + region?.latitude)
 
 
-        await fetch("https://api.ipgeolocation.io/v2/astronomy?apiKey=4b6c87109bd24356b970e5d0973c161a&lat=40.76473&long=-74.00084&elevation=10", requestOptions)
+        await fetch(`https://api.ipgeolocation.io/v2/astronomy?apiKey=${process.env.API_KEY}&lat=${region?.latitude}&long=${region?.longitude}&elevation=10`, requestOptions)
             .then((response) => {
                 
                 if(!response.ok){
