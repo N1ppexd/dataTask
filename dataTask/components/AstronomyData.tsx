@@ -28,10 +28,10 @@ export default function AstronomyData({ region }: Props) {
             redirect: "follow" as RequestRedirect
         };
 
-        console.log('latitude ' + region?.latitude)
+        const apiKey = process.env.EXPO_PUBLIC_API_KEY;
 
 
-        await fetch(`https://api.ipgeolocation.io/v2/astronomy?apiKey=${process.env.API_KEY}&lat=${region?.latitude}&long=${region?.longitude}&elevation=10`, requestOptions)
+        await fetch(`https://api.ipgeolocation.io/v2/astronomy?apiKey=${apiKey}&lat=${region?.latitude}&long=${region?.longitude}&elevation=10`, requestOptions)
             .then((response) => {
                 
                 if(!response.ok){
